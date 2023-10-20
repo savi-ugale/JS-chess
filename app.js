@@ -1,7 +1,9 @@
-const gameBoard = document.querySelector("#gameBoard")
+const gameboard = document.querySelector("#gameboard")
 const playerDisplay = document.querySelector("#player")
 const infoDisplay = document.querySelector("#info-display")
 const width = 8
+let playerGo = 'black'
+playerDisplay.textContent = 'black'
 
 const startPieces = [
     rook, knight, bishop, queen, king, bishop, knight, rook,
@@ -43,19 +45,76 @@ if ( i >= 48) {
 
 createBoard();
 
-const allsquare = document.querySelectorAll("#gameboard .square")
+const allsquare = document.querySelectorAll(".square")
 
 allsquare.forEach(square => {
     square.addEventListener('dragstart', dragStart)
     square.addEventListener('dragover', dragover)
+    square.addEventListener('drop', dragDrop)
 })
 
-let startPositionId = 
+let startPositionId
 let draggedElement
+
 function dragStart (e) {
     startPositionId = e.target.parentNode.getAttribute('square-id')
     draggedElement = e.target
 }
 
-function dragOver()
+function dragover(e) {
+   e.preventDefault()
+
+}
+
+function dragDrop(e) {
+    e.stopPropagation()
+    console.log('e.target', e.target)
+    const correctGo = draggedElement.firstChild.classList.contains(playerGo)
+    const taken = e.target.classList.contains('piece')
+    const opponentGo = playerGo === 'white' ? 'black' : 'white'
+    const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo)
+
+    if (correctGo) {
+        //must check this first
+        if  (takenByOpponent && valid) {
+             e.target.parentNode.append(draggedElement)
+             e.target.remove()
+             changePlayer()
+             return
+         }
+        //then check this
+        if (taken && !takenByOpponent) {
+            infoDisplay.textContent = "you cannot go here!"
+            setTimeout(() =>  infoDisplay.textContent = "", 2000)
+            return
+        }
+    }
+   
+    //e.target.append(draggedElement)
+   
+}
+
+function changePlayer() {
+    if (playerGo === "black") {
+        reverseIds()
+        playerGo = "white"
+        playerDisplay.textContent = "white"
+    } else {
+        revertIds()
+        playerGo = "black"
+        playerDisplay.textContent = "black"
+    }
+}
+
+
+function reverseIds() {
+    const allSquares = document.querySelectorAll('.square')
+    allSquares.forEach((square, i) => square.setAttribute('square-id', (width * width - 1) - i))
+}
+
+function revertIds() {
+    const allSquares = document.querySelectorAll('.square')
+    allSquares.forEach((square, i) => square.setAttribute('square-id', i))
+}
+
 
