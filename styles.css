@@ -1,10 +1,38 @@
+body {
+    background-color: #15081E; 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+}
+
+#container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+}
 #gameboard {
     width: 320px;
     height: 320px;
     display: flex;
     flex-wrap: wrap;
-
+    margin: 0 auto;
+    justify-content: center; 
+    align-items: center; 
+    border: 2px solid white;
+    
 }
+#player-paragraph,
+#info-display {
+    text-align: center; 
+    font-family: Arial, sans-serif; 
+    font-size: 18px; 
+    background-color: #f2f2f2; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+}
+
 
 .square {
     height: 40px;
@@ -20,6 +48,7 @@
     z-index: -5;
 }
 
+
 path {
     position: relative;
     z-index: -10;
@@ -29,13 +58,16 @@ path {
     position: relative;
     z-index: 10;
 }
+.square:hover svg {
+    transform: scale(1.1);
+}
 
 .dark {
-    background-color: rgb(112, 102, 119);
+    background-color: #ECD4EA;
 }
 
 .light {
-    background-color: rgb(204, 183, 174);
+    background-color: #693B69;
 }
 
 .black {
@@ -43,5 +75,5 @@ path {
 }
 
 .white {
-    fill: #fff;
+    fill: #FCFCFD;
 }
